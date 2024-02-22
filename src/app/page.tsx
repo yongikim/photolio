@@ -31,12 +31,12 @@ export default async function Home() {
   const data = await getPhotos();
 
   return (
-    <main className="pt-16 pl-20 pr-20 pb-24">
-      <div className="flex flex-row justify-end gap-14">
+    <main className="pt-8 min-h-screen pl-20 pr-20 pb-24">
+      <div className="flex flex-row justify-end gap-8 h-10">
         <Upload />
         <Logout />
       </div>
-      <div className="pt-24 flex flex-row flex-wrap items-start justify-center  gap-14">
+      <div className="pt-16 flex flex-row flex-wrap items-start justify-center  gap-4">
         {data["photos"].map((photo) => {
           const height = 280;
           const width = (photo.width / photo.height) * height;
