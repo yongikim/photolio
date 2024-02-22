@@ -4,18 +4,27 @@ import {
   useContext,
   createContext,
   useState,
-  ReactElement,
   ReactNode,
+  useEffect,
 } from "react";
+import { cognitoConstants } from "@/constants/cognito";
+import { signIn, signOut, fetchAuthSession } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+
+Amplify.configure(cognitoConstants);
 
 export type AuthContextType = {
   isAuthenticated: boolean;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
+  signIn: typeof signIn;
+  signOut: typeof signOut;
+  authenticate: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  setIsAuthenticated: () => {},
+  signIn,
+  signOut,
+  authenticate: () => new Promise(() => {}),
 });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
@@ -23,8 +32,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const authenticate = async () => {
+    try {
+      const session = await fetchAuthSession();
+      setIsAuthenticated(!!session.tokens);
+    } catch {
+      console.log("Error fetching auth session");
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await authenticate();
+    })();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, signIn, signOut, authenticate }}
+    >
       {children}
     </AuthContext.Provider>
   );

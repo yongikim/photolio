@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Upload } from "./upload";
-import { LoginOrLogout } from "./logout";
+import { Logout } from "./logout";
 
 type GetPhotosResponse = {
   photos: {
@@ -13,7 +13,7 @@ type GetPhotosResponse = {
   meta: {
     total: number;
     limit: number;
-    lastEvaluatedKey: string;
+    lastEvaluatedKey?: string;
   };
 };
 
@@ -31,18 +31,17 @@ export default async function Home() {
   const data = await getPhotos();
 
   return (
-    <main className="pt-16 pl-16 pr-16 pb-24">
+    <main className="pt-16 pl-20 pr-20 pb-24">
       <div className="flex flex-row justify-end gap-14">
         <Upload />
-        <LoginOrLogout />
+        <Logout />
       </div>
       <div className="pt-24 flex flex-row flex-wrap items-start justify-center  gap-14">
         {data["photos"].map((photo) => {
-          const height = 300;
+          const height = 280;
           const width = (photo.width / photo.height) * height;
           return (
             <Image
-              unoptimized
               key={photo.id}
               src={photo.url}
               alt={photo.title || "Photo"}
