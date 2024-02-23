@@ -63,6 +63,7 @@ export const Upload = () => {
           style={{ display: "none" }}
           ref={hiddenFileInputRef}
           onChange={handleFileChange}
+          multiple
         />
         <button onClick={handleClick}>Upload</button>
       </>
