@@ -18,6 +18,7 @@ export type AuthContextType = {
   signIn: typeof signIn;
   signOut: typeof signOut;
   authenticate: () => Promise<void>;
+  idToken: string;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -25,17 +26,22 @@ export const AuthContext = createContext<AuthContextType>({
   signIn,
   signOut,
   authenticate: () => new Promise(() => {}),
+  idToken: "",
 });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [idToken, setIdToken] = useState("");
 
   const authenticate = async () => {
     try {
       const session = await fetchAuthSession();
-      setIsAuthenticated(!!session.tokens);
+      if (session.tokens) {
+        setIsAuthenticated(true);
+        setIdToken(session.tokens.idToken?.toString() || "");
+      }
     } catch {
       console.log("Error fetching auth session");
     }
@@ -49,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, signIn, signOut, authenticate }}
+      value={{ isAuthenticated, signIn, signOut, authenticate, idToken }}
     >
       {children}
     </AuthContext.Provider>

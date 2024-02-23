@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Upload } from "./upload";
-import { Logout } from "./logout";
+import { Upload } from "../components/upload";
+import { Logout } from "../components/logout";
 
 type GetPhotosResponse = {
   photos: {
@@ -36,7 +36,7 @@ export default async function Home() {
         <Upload />
         <Logout />
       </div>
-      <div className="pt-16 flex flex-row flex-wrap items-start justify-center  gap-4">
+      <div className="pt-16 flex flex-row flex-wrap items-start justify-center  gap-2">
         {data["photos"].map((photo) => {
           const height = 280;
           const width = (photo.width / photo.height) * height;
