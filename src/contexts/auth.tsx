@@ -38,10 +38,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const authenticate = async () => {
     try {
       const session = await fetchAuthSession();
-      if (session.tokens) {
-        setIsAuthenticated(true);
-        setIdToken(session.tokens.idToken?.toString() || "");
-      }
+      setIsAuthenticated(!!session.tokens);
+      setIdToken(session.tokens?.idToken?.toString() || "");
     } catch {
       console.log("Error fetching auth session");
     }
