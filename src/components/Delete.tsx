@@ -4,6 +4,7 @@ import { usePhotoSelection } from "@/contexts/photoSelection";
 import { deletePhotos } from "@/lib/deletePhotos";
 
 export const Delete = () => {
+  const { isAuthenticated } = useAuth();
   const { enabled, disable, selectedPhotos } = usePhotoSelection();
   const { idToken } = useAuth();
 
@@ -22,6 +23,7 @@ export const Delete = () => {
   };
 
   return (
+    isAuthenticated &&
     enabled &&
     selectedPhotos.length > 0 && <button onClick={handleClick}>Delete</button>
   );
