@@ -18,7 +18,7 @@ export default async function Home() {
       </div>
       <div className="pt-16 flex flex-row flex-wrap items-start justify-center gap-2">
         {data["photos"].map((photo) => (
-          <PhotoCard photo={photo} />
+          <PhotoCard key={photo.id} photo={photo} />
         ))}
       </div>
     </main>
