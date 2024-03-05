@@ -2,6 +2,7 @@
 import { useAuth } from "@/contexts/auth";
 import { usePhotoSelection } from "@/contexts/photoSelection";
 import { deletePhotos } from "@/lib/deletePhotos";
+import { revalidateTag } from "next/cache";
 
 export const Delete = () => {
   const { isAuthenticated } = useAuth();
@@ -15,6 +16,7 @@ export const Delete = () => {
       try {
         await deletePhotos({ idToken, albumId, photoIds: selectedPhotos });
         disable();
+        revalidateTag("get_photos");
         location.reload();
       } catch (error) {
         console.error("Error deleting photos", error);

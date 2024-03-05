@@ -10,7 +10,9 @@ type GetPhotosResponse = {
 };
 
 export async function getPhotos(): Promise<GetPhotosResponse> {
-  const res = await fetch("https://photolio-api.yongikim.com/photos");
+  const res = await fetch("https://photolio-api.yongikim.com/photos", {
+    next: { tags: ["get_photos"] },
+  });
 
   if (!res.ok) {
     throw new Error(res.statusText);
