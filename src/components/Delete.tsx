@@ -1,4 +1,5 @@
 "use client";
+import revalidateAllPhotos from "@/app/actions/revalidateAllPhotos";
 import { useAuth } from "@/contexts/auth";
 import { usePhotoSelection } from "@/contexts/photoSelection";
 import { deletePhotos } from "@/lib/deletePhotos";
@@ -16,7 +17,7 @@ export const Delete = () => {
       try {
         await deletePhotos({ idToken, albumId, photoIds: selectedPhotos });
         disable();
-        revalidateTag("get_photos");
+        revalidateAllPhotos();
         location.reload();
       } catch (error) {
         console.error("Error deleting photos", error);
