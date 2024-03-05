@@ -2,6 +2,6 @@
 
 import { revalidateTag } from "next/cache";
 
-export default function revalidateAllPhotos() {
+export default async function revalidateAllPhotos() {
   revalidateTag("photos");
 }
