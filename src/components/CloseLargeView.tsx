@@ -10,7 +10,10 @@ export const CloseLargeView = () => {
 
   return (
     <div className="absolute -top-8 right-2">
-      <GrClose onClick={handleClick} className="h-6 w-6 cursor-pointer" />
+      <GrClose
+        onClick={handleClick}
+        className="h-6 w-6 cursor-pointer text-white"
+      />
     </div>
   );
 };
