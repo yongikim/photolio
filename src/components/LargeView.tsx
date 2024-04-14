@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useLargeView } from "@/contexts/largeView";
 import { Photo } from "@/lib/photo";
+import { Expand } from "./Expand";
 
 function skeleton(w: number, h: number) {
   return `
@@ -55,17 +56,20 @@ export const LargeView = () => {
         className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center"
         onClick={() => setPhoto(null)}
       >
-        <Image
-          key={photo?.url}
-          src={photo?.url}
-          alt="Large view"
-          height={height}
-          width={width}
-          className="max-h-full max-w-full"
-          placeholder={`data:image/svg+xml;base64,${toBase64(
-            skeleton(width * 0.9, height * 0.9)
-          )}`}
-        />
+        <div className="relative">
+          <Expand photoId={photo.id} />
+          <Image
+            key={photo?.url}
+            src={photo?.url}
+            alt="Large view"
+            height={height}
+            width={width}
+            className="max-h-full max-w-full"
+            placeholder={`data:image/svg+xml;base64,${toBase64(
+              skeleton(width * 0.9, height * 0.9)
+            )}`}
+          />
+        </div>
       </div>
     )
   );
