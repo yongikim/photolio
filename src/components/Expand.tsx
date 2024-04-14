@@ -7,7 +7,7 @@ export const Expand = ({ photoId }: { photoId: string }) => {
         onClick={() => {
           window.location.href = `/photos/${photoId}`;
         }}
-        className="h-6 w-6 cursor-pointer"
+        className="h-6 w-6 cursor-pointer text-white"
       />
     </div>
   );
