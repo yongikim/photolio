@@ -4,6 +4,7 @@ import { PhotoCard } from "@/components/PhotoCard";
 import { Select } from "@/components/Select";
 import { Delete } from "@/components/Delete";
 import { getPhotos } from "@/lib/getPhotos";
+import { LargeView } from "@/components/LargeView";
 
 export default async function Home() {
   const data = await getPhotos();
@@ -20,6 +21,7 @@ export default async function Home() {
         {data["photos"].map((photo) => (
           <PhotoCard key={photo.id} photo={photo} />
         ))}
+        <LargeView />
       </div>
     </main>
   );

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/auth";
 import { PhotoSelectionProvider } from "@/contexts/photoSelection";
+import { LargeViewProvider } from "@/contexts/largeView";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <PhotoSelectionProvider>{children}</PhotoSelectionProvider>
+          <PhotoSelectionProvider>
+            <LargeViewProvider>{children}</LargeViewProvider>
+          </PhotoSelectionProvider>
         </AuthProvider>
       </body>
     </html>

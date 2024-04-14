@@ -1,11 +1,9 @@
 "use client";
 import Image from "next/image";
 import { Photo } from "@/lib/photo";
-import {
-  PhotoSelectionProvider,
-  usePhotoSelection,
-} from "@/contexts/photoSelection";
+import { usePhotoSelection } from "@/contexts/photoSelection";
 import { CheckMark } from "./CheckMark";
+import { useLargeView } from "@/contexts/largeView";
 
 type Props = {
   photo: Photo;
@@ -18,6 +16,8 @@ export const PhotoCard = ({ photo }: Props) => {
   const { selectedPhotos, addPhoto, removePhoto, enabled } =
     usePhotoSelection();
 
+  const { setPhoto: setPhotoForLargeView } = useLargeView();
+
   const selected = selectedPhotos.includes(photo.id);
 
   const handleSelection = () => {
@@ -28,7 +28,9 @@ export const PhotoCard = ({ photo }: Props) => {
     }
   };
 
-  const handleView = () => {};
+  const handleView = () => {
+    setPhotoForLargeView(photo);
+  };
 
   const handleClick = enabled ? handleSelection : handleView;
 
