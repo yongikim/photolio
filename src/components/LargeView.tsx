@@ -3,30 +3,11 @@ import Image from "next/image";
 import { useLargeView } from "@/contexts/largeView";
 import { Photo } from "@/lib/photo";
 import { Expand } from "./Expand";
-
-function skeleton(w: number, h: number) {
-  return `
-    <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <defs>
-        <linearGradient id="g">
-          <stop stop-color="#d1d5db" offset="20%" />
-          <stop stop-color="#f3f4f6" offset="50%" />
-          <stop stop-color="#d1d5db" offset="70%" />
-        </linearGradient>
-      </defs>
-      <rect width="${w}" height="${h}" fill="#d1d5db" />
-      <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-      <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite" />
-    </svg>`;
-}
-
-function toBase64(str: string) {
-  if (typeof window === "undefined") {
-    return Buffer.from(str).toString("base64");
-  } else {
-    return window.btoa(str);
-  }
-}
+import { useEffect, useRef } from "react";
+import { CloseLargeView } from "./CloseLargeView";
+import { skeleton } from "@/lib/skeleton";
+import { toBase64 } from "@/lib/toBase64";
+import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 
 const getHeightAndWidth = ({
   photo,
@@ -35,39 +16,58 @@ const getHeightAndWidth = ({
   photo: Photo;
   scale: number;
 }) => {
-  const height = scale * window.innerHeight;
-  const width = (photo.width / photo.height) * height;
+  let height = scale * window.innerHeight;
+  let width = (photo.width / photo.height) * height;
 
   return { height, width };
 };
 
 export const LargeView = () => {
   const { photo, setPhoto } = useLargeView();
-
-  if (!photo) return null;
+  const scale = 0.9;
 
   const { height, width } = photo
-    ? getHeightAndWidth({ photo, scale: 0.9 })
+    ? getHeightAndWidth({ photo, scale })
     : { height: 0, width: 0 };
+
+  const imageRef = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const el = imageRef.current;
+    if (!el) return;
+
+    const handleAllClick = (e: MouseEvent) => {
+      if (!el?.contains(e.target as Node)) {
+        // When outside of the element is clicked
+        setPhoto(null);
+      }
+    };
+
+    document.addEventListener("click", handleAllClick);
+
+    return () => {
+      document.removeEventListener("click", handleAllClick);
+    };
+  }, [imageRef, photo]);
+
+  const placeholder: PlaceholderValue = `data:image/svg+xml;base64,${toBase64(
+    skeleton(width * scale, height * scale)
+  )}`;
 
   return (
     photo && (
-      <div
-        className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center"
-        onClick={() => setPhoto(null)}
-      >
+      <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center">
         <div className="relative">
           <Expand photoId={photo.id} />
+          <CloseLargeView />
           <Image
+            ref={imageRef}
             key={photo?.url}
             src={photo?.url}
             alt="Large view"
             height={height}
             width={width}
             className="max-h-full max-w-full"
-            placeholder={`data:image/svg+xml;base64,${toBase64(
-              skeleton(width * 0.9, height * 0.9)
-            )}`}
+            placeholder={placeholder}
           />
         </div>
       </div>
