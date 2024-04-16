@@ -10,7 +10,7 @@ export default async function Home() {
   const data = await getPhotos();
 
   return (
-    <main className="pt-8 min-h-screen pl-20 pr-20 pb-24">
+    <main className="pt-8 min-h-screen pl-2 pr-2 md:pl-20 md:pr-20 pb-24">
       <div className="flex flex-row justify-end gap-8 h-10">
         <Delete />
         <Select />
