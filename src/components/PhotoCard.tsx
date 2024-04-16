@@ -4,6 +4,7 @@ import { Photo } from "@/lib/photo";
 import { usePhotoSelection } from "@/contexts/photoSelection";
 import { CheckMark } from "./CheckMark";
 import { useLargeView } from "@/contexts/largeView";
+import { useEffect } from "react";
 
 type Props = {
   photo: Photo;
@@ -13,10 +14,12 @@ export const PhotoCard = ({ photo }: Props) => {
   let height = 280;
   let width = (photo.width / photo.height) * height;
 
-  if (window !== undefined && window.innerHeight < 640) {
-    width = window.innerHeight;
-    height = (photo.height / photo.width) * width;
-  }
+  useEffect(() => {
+    if (window?.innerWidth < 640) {
+      width = window.innerWidth;
+      height = (photo.height / photo.width) * width;
+    }
+  }, []);
 
   const { selectedPhotos, addPhoto, removePhoto, enabled } =
     usePhotoSelection();
