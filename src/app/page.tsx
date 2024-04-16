@@ -1,8 +1,4 @@
-import { Upload } from "../components/Upload";
-import { Logout } from "../components/Logout";
 import { PhotoCard } from "@/components/PhotoCard";
-import { Select } from "@/components/Select";
-import { Delete } from "@/components/Delete";
 import { getPhotos } from "@/lib/getPhotos";
 import { LargeView } from "@/components/LargeView";
 import { Operations } from "@/components/Operations";

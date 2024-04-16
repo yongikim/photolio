@@ -13,7 +13,7 @@ export const PhotoCard = ({ photo }: Props) => {
   let height = 280;
   let width = (photo.width / photo.height) * height;
 
-  if (window?.innerHeight < 640) {
+  if (window !== undefined && window.innerHeight < 640) {
     width = window.innerHeight;
     height = (photo.height / photo.width) * width;
   }
