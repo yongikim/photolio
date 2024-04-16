@@ -14,7 +14,7 @@ export const PhotoCard = ({ photo }: Props) => {
   let width = (photo.width / photo.height) * height;
 
   // if view width is smaller than 640px, set width to 90% of the view width
-  if (window.innerHeight < 640) {
+  if (window?.innerHeight < 640) {
     width = window.innerHeight;
     height = (photo.height / photo.width) * width;
   }
