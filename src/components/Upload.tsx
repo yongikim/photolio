@@ -4,6 +4,7 @@ import revalidateAllPhotos from "@/app/actions/revalidateAllPhotos";
 import { useAuth } from "@/contexts/auth";
 import { uploadPhotos } from "@/lib/uploadPhotos";
 import { useRef } from "react";
+import { toast } from "sonner";
 
 export const Upload = () => {
   const { isAuthenticated, idToken } = useAuth();
@@ -18,11 +19,12 @@ export const Upload = () => {
     if (!files) return;
 
     try {
+      toast("Uploading photos...");
       await uploadPhotos({ idToken, files });
+      toast.success("Upload complete!");
       await revalidateAllPhotos();
-      location.reload();
     } catch (error) {
-      console.error("Error uploading photos", error);
+      toast.error("Error uploading photos");
     }
   };
 
