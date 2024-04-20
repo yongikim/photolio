@@ -17,7 +17,7 @@ export const Delete = () => {
       try {
         await deletePhotos({ idToken, albumId, photoIds: selectedPhotos });
         disable();
-        revalidateAllPhotos();
+        await revalidateAllPhotos();
         location.reload();
       } catch (error) {
         console.error("Error deleting photos", error);
