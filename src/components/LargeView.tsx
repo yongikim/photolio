@@ -2,12 +2,12 @@
 import Image from "next/image";
 import { useLargeView } from "@/contexts/largeView";
 import { Photo } from "@/lib/photo";
-import { Expand } from "./Expand";
 import { useEffect, useRef } from "react";
 import { CloseLargeView } from "./CloseLargeView";
 import { skeleton } from "@/lib/skeleton";
 import { toBase64 } from "@/lib/toBase64";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
+import { OpenInNew } from "./OpenInNew";
 
 const getHeightAndWidth = ({
   photo,
@@ -58,7 +58,7 @@ export const LargeView = () => {
       <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center">
         <div className="relative">
           <div className="absolute -top-8 right-14">
-            <Expand photoId={photo.id} />
+            <OpenInNew photoId={photo.id} />
           </div>
           <div className="absolute -top-8 right-2">
             <CloseLargeView />
