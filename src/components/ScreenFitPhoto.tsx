@@ -1,6 +1,5 @@
 "use client"
 import { Photo } from "@/lib/photo";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const getScreenFitSize = (photo: Photo): ({ width: number; height: number }) => {
@@ -30,22 +29,22 @@ const getScreenFitSize = (photo: Photo): ({ width: number; height: number }) => 
     }
   }
 
-  const scale = .9;
   return {
-    width: width * scale, height: height * scale
+    width, height
   }
 }
 
 export const ScreenFitPhoto = ({ photo }: { photo: Photo }) => {
   const { width, height } = getScreenFitSize(photo)
+  const scale = .9;
 
   return (
     <>
       <Image
         src={photo.url}
         alt={photo.title}
-        width={width}
-        height={height}
+        width={width * scale}
+        height={height * scale}
       />
     </>
   );
