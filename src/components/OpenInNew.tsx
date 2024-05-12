@@ -1,12 +1,13 @@
+import Link from "next/link";
 import { MdOutlineOpenInNew } from "react-icons/md";
 
 export const OpenInNew = ({ photoId }: { photoId: string }) => {
+  const photoUrl = `/photos/${photoId}`;
   return (
-    <MdOutlineOpenInNew
-      onClick={() => {
-        open(`/photos/${photoId}`);
-      }}
-      className="h-6 w-6 cursor-pointer text-white"
-    />
+    <Link href={photoUrl} target="blank">
+      <MdOutlineOpenInNew
+        className="h-6 w-6 cursor-pointer text-white"
+      />
+    </Link>
   );
 };
